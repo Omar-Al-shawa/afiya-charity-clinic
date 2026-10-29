@@ -1,0 +1,444 @@
+/* =====================================================================
+   مجمع عافية الطبي الخيري: المتغيرات والأنماط المشتركة
+   يُحمَّل بعد Bootstrap RTL حتى تتغلب القيم هنا على القيم الافتراضية.
+   ===================================================================== */
+
+/* ---------- الوضع الفاتح (الافتراضي) ---------- */
+:root,
+[data-bs-theme='light'] {
+  color-scheme: light;
+
+  --af-primary: #0f766e;
+  --af-primary-rgb: 15, 118, 110;
+  --af-primary-hover: #0b5f58;
+  --af-primary-subtle: #e6f4f1;
+  --af-on-primary: #ffffff;
+
+  --af-accent: #b45309;
+  --af-accent-hover: #92400e;
+  --af-accent-subtle: #fef3e2;
+  --af-on-accent: #ffffff;
+
+  --af-body-bg: #f6f9f8;
+  --af-surface: #ffffff;
+  --af-surface-2: #f0f4f3;
+  --af-border: #dce4e2;
+  --af-text: #1b2b29;
+  --af-muted: #5b6b68;
+
+  --af-success: #15803d;
+  --af-warning: #a16207;
+  --af-danger: #b91c1c;
+  --af-info: #0369a1;
+
+  --af-focus: rgba(15, 118, 110, 0.35);
+  --af-shadow: 0 1px 2px rgba(16, 40, 38, 0.06);
+  --af-shadow-hover: 0 6px 16px rgba(16, 40, 38, 0.08);
+
+  /* ربط متغيرات Bootstrap بألواننا */
+  --bs-primary: #0f766e;
+  --bs-primary-rgb: 15, 118, 110;
+  --bs-body-bg: #f6f9f8;
+  --bs-body-bg-rgb: 246, 249, 248;
+  --bs-body-color: #1b2b29;
+  --bs-body-color-rgb: 27, 43, 41;
+  --bs-emphasis-color: #1b2b29;
+  --bs-heading-color: #1b2b29;
+  --bs-secondary-color: #5b6b68;
+  --bs-tertiary-bg: #f0f4f3;
+  --bs-border-color: #dce4e2;
+  --bs-link-color: #0f766e;
+  --bs-link-color-rgb: 15, 118, 110;
+  --bs-link-hover-color: #0b5f58;
+  --bs-link-hover-color-rgb: 11, 95, 88;
+  --bs-primary-bg-subtle: #e6f4f1;
+  --bs-primary-text-emphasis: #0b5f58;
+}
+
+/* ---------- الوضع الداكن ---------- */
+[data-bs-theme='dark'] {
+  color-scheme: dark;
+
+  --af-primary: #2bb3a3;
+  --af-primary-rgb: 43, 179, 163;
+  --af-primary-hover: #4cc9ba;
+  --af-primary-subtle: #12332f;
+  --af-on-primary: #06201d;
+
+  --af-accent: #f59e0b;
+  --af-accent-hover: #fbbf24;
+  --af-accent-subtle: #3a2a12;
+  --af-on-accent: #1c1200;
+
+  --af-body-bg: #0e1716;
+  --af-surface: #15211f;
+  --af-surface-2: #1b2a28;
+  --af-border: #2a3b38;
+  --af-text: #e6efed;
+  --af-muted: #9fb1ad;
+
+  --af-success: #4ade80;
+  --af-warning: #facc15;
+  --af-danger: #f87171;
+  --af-info: #38bdf8;
+
+  --af-focus: rgba(43, 179, 163, 0.45);
+  /* في الوضع الداكن تحلّ الحدود محل الظلال */
+  --af-shadow: none;
+  --af-shadow-hover: none;
+
+  --bs-primary: #2bb3a3;
+  --bs-primary-rgb: 43, 179, 163;
+  --bs-body-bg: #0e1716;
+  --bs-body-bg-rgb: 14, 23, 22;
+  --bs-body-color: #e6efed;
+  --bs-body-color-rgb: 230, 239, 237;
+  --bs-emphasis-color: #e6efed;
+  --bs-heading-color: #e6efed;
+  --bs-secondary-color: #9fb1ad;
+  --bs-tertiary-bg: #1b2a28;
+  --bs-border-color: #2a3b38;
+  --bs-link-color: #2bb3a3;
+  --bs-link-color-rgb: 43, 179, 163;
+  --bs-link-hover-color: #4cc9ba;
+  --bs-link-hover-color-rgb: 76, 201, 186;
+  --bs-primary-bg-subtle: #12332f;
+  --bs-primary-text-emphasis: #4cc9ba;
+}
+
+:root {
+  --bs-body-font-family: 'IBM Plex Sans Arabic', Tahoma, 'Segoe UI', sans-serif;
+  --bs-body-font-size: 1rem;
+  --bs-body-line-height: 1.7;
+  --af-radius-sm: 0.5rem;
+  --af-radius-md: 0.75rem;
+  --af-radius-lg: 1rem;
+}
+
+/* ---------- الأساسيات ---------- */
+body {
+  background-color: var(--af-body-bg);
+  color: var(--af-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
+  line-height: 1.35;
+  color: var(--af-text);
+}
+h1, .h1 { font-size: 1.75rem; font-weight: 700; }
+h2, .h2 { font-size: 1.5rem; font-weight: 700; }
+h3, .h3 { font-size: 1.25rem; font-weight: 600; }
+h4, .h4 { font-size: 1.125rem; font-weight: 600; }
+h5, .h5 { font-size: 1.125rem; font-weight: 600; }
+
+@media (min-width: 768px) {
+  h1, .h1 { font-size: 2.25rem; }
+  h2, .h2 { font-size: 1.75rem; }
+  h3, .h3 { font-size: 1.375rem; }
+}
+
+.af-muted { color: var(--af-muted); }
+
+/* إطار التركيز ظاهر دائماً عند التنقل بلوحة المفاتيح */
+:focus-visible {
+  outline: 3px solid var(--af-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.af-skip-link {
+  position: absolute;
+  top: -100px;
+  inset-inline-start: 0.5rem;
+  z-index: 2000;
+  padding: 0.5rem 1rem;
+  border-radius: var(--af-radius-sm);
+  background: var(--af-primary);
+  color: var(--af-on-primary);
+  text-decoration: none;
+}
+.af-skip-link:focus { top: 0.5rem; }
+
+.af-main { min-height: 60vh; }
+.af-main:focus { outline: none; }
+
+/* ---------- الأزرار ---------- */
+.btn {
+  --bs-btn-padding-x: 1.25rem;
+  --bs-btn-padding-y: 0.625rem;
+  --bs-btn-font-weight: 600;
+  --bs-btn-border-radius: var(--af-radius-sm);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  --bs-btn-color: var(--af-on-primary);
+  --bs-btn-bg: var(--af-primary);
+  --bs-btn-border-color: var(--af-primary);
+  --bs-btn-hover-color: var(--af-on-primary);
+  --bs-btn-hover-bg: var(--af-primary-hover);
+  --bs-btn-hover-border-color: var(--af-primary-hover);
+  --bs-btn-active-color: var(--af-on-primary);
+  --bs-btn-active-bg: var(--af-primary-hover);
+  --bs-btn-active-border-color: var(--af-primary-hover);
+  --bs-btn-disabled-color: var(--af-on-primary);
+  --bs-btn-disabled-bg: var(--af-primary);
+  --bs-btn-disabled-border-color: var(--af-primary);
+  --bs-btn-focus-shadow-rgb: var(--af-primary-rgb);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--af-primary);
+  --bs-btn-border-color: var(--af-primary);
+  --bs-btn-hover-color: var(--af-on-primary);
+  --bs-btn-hover-bg: var(--af-primary);
+  --bs-btn-hover-border-color: var(--af-primary);
+  --bs-btn-active-color: var(--af-on-primary);
+  --bs-btn-active-bg: var(--af-primary-hover);
+  --bs-btn-active-border-color: var(--af-primary-hover);
+  --bs-btn-disabled-color: var(--af-primary);
+  --bs-btn-disabled-border-color: var(--af-primary);
+  --bs-btn-focus-shadow-rgb: var(--af-primary-rgb);
+}
+
+/* زر "العطاء": يُستخدم في التبرع فقط */
+.btn-accent {
+  --bs-btn-color: var(--af-on-accent);
+  --bs-btn-bg: var(--af-accent);
+  --bs-btn-border-color: var(--af-accent);
+  --bs-btn-hover-color: var(--af-on-accent);
+  --bs-btn-hover-bg: var(--af-accent-hover);
+  --bs-btn-hover-border-color: var(--af-accent-hover);
+  --bs-btn-active-color: var(--af-on-accent);
+  --bs-btn-active-bg: var(--af-accent-hover);
+  --bs-btn-active-border-color: var(--af-accent-hover);
+  --bs-btn-focus-shadow-rgb: 180, 83, 9;
+}
+
+.btn:disabled,
+.btn.disabled { opacity: 0.55; cursor: not-allowed; }
+
+.af-icon-btn {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--af-border);
+  border-radius: 50%;
+  background: var(--af-surface);
+  color: var(--af-text);
+  font-size: 1.15rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.af-icon-btn:hover { background: var(--af-surface-2); }
+
+/* ---------- الشعار ---------- */
+.af-logo { display: inline-flex; align-items: center; gap: 0.6rem; line-height: 1.2; }
+.af-logo .af-logo-mark { width: 40px; height: 40px; }
+.af-logo-text { font-weight: 500; font-size: 1.05rem; color: var(--af-text); white-space: nowrap; }
+.af-logo-name { font-weight: 700; color: var(--af-primary); }
+.af-logo-heart { fill: var(--af-primary); }
+.af-logo-badge-bg { fill: var(--af-primary); }
+.af-logo-mark--badge .af-logo-heart { fill: var(--af-on-primary); }
+
+@media (max-width: 767.98px) {
+  .af-logo .af-logo-mark { width: 32px; height: 32px; }
+}
+
+/* ---------- الشريط العلوي ---------- */
+.af-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: var(--af-surface);
+  border-bottom: 1px solid var(--af-border);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.af-navbar-inner { display: flex; align-items: center; gap: 1rem; min-height: 64px; }
+.af-brand { display: inline-flex; align-items: center; text-decoration: none; border-radius: var(--af-radius-sm); }
+.af-nav { flex: 1; align-items: center; gap: 0.25rem; margin-inline-start: 1rem; }
+.af-nav-link {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--af-radius-sm);
+  color: var(--af-text);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.af-nav-link:hover { background: var(--af-surface-2); color: var(--af-text); }
+.af-nav-link.active { background: var(--af-primary-subtle); color: var(--af-primary); font-weight: 600; }
+.af-navbar-actions { display: flex; align-items: center; gap: 0.5rem; margin-inline-start: auto; }
+
+/* القائمة المنزلقة */
+.offcanvas { --bs-offcanvas-bg: var(--af-surface); --bs-offcanvas-color: var(--af-text); --bs-offcanvas-width: 320px; }
+.offcanvas-header { justify-content: space-between; border-bottom: 1px solid var(--af-border); }
+.af-mobile-nav a {
+  display: block;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--af-border);
+  color: var(--af-text);
+  font-weight: 500;
+  text-decoration: none;
+}
+.af-mobile-nav a.active { color: var(--af-primary); font-weight: 700; }
+
+/* ---------- التذييل ---------- */
+.af-footer { background: var(--af-surface); border-top: 1px solid var(--af-border); }
+.af-footer-title { font-size: 1.0625rem; font-weight: 600; margin-bottom: 1rem; }
+.af-footer-link { color: var(--af-text); text-decoration: none; }
+.af-footer-link:hover { color: var(--af-primary); text-decoration: underline; }
+.af-footer-contact li { display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem; }
+.af-footer-contact .bi { color: var(--af-primary); margin-top: 0.3rem; }
+/* الرقم والبريد لا يتجزآن عادةً: يُسمح بكسرهما عند ضيق عمود التذييل (نصف عرض الشاشة على الجوال) حتى لا يفيض الصفحة */
+.af-footer-contact a { overflow-wrap: anywhere; }
+.af-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--af-border);
+  color: var(--af-muted);
+}
+
+/* ---------- قيمة مؤقتة (بيانات لم تصل بعد) ---------- */
+.af-placeholder {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.15rem 0.6rem;
+  border: 1px dashed var(--af-border);
+  border-radius: var(--af-radius-sm);
+  color: var(--af-muted);
+  font-size: 0.9375rem;
+}
+
+/* ---------- البطاقات والشارات ---------- */
+.af-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--af-surface);
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-md);
+  box-shadow: var(--af-shadow);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+.af-card:hover { box-shadow: var(--af-shadow-hover); }
+
+.af-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  background: var(--af-primary-subtle);
+  color: var(--af-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.af-meta li { display: flex; align-items: center; gap: 0.5rem; color: var(--af-muted); font-size: 0.9375rem; margin-bottom: 0.35rem; }
+.af-meta .bi { color: var(--af-primary); }
+
+/* بطاقة التخصص */
+.af-specialty-card { padding: 1.5rem; }
+.af-specialty-card:hover { transform: translateY(-2px); border-color: var(--af-primary); }
+.af-specialty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: var(--af-primary-subtle);
+  color: var(--af-primary);
+  font-size: 1.4rem;
+}
+.af-card-link { color: var(--af-text); text-decoration: none; }
+.af-card-link:hover { color: var(--af-primary); }
+.af-card-cta { margin-top: auto; color: var(--af-primary); font-weight: 600; }
+.af-card-cta .bi { margin-inline-start: 0.25rem; }
+
+/* بطاقة الطبيب */
+.af-doctor-card { overflow: hidden; }
+.af-doctor-media { aspect-ratio: 1 / 1; background: var(--af-surface-2); overflow: hidden; }
+.af-avatar { display: block; width: 100%; height: 100%; object-fit: cover; }
+.af-avatar--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--af-muted);
+  font-size: 4rem;
+}
+.af-doctor-body { display: flex; flex: 1; flex-direction: column; padding: 1.25rem; }
+
+/* ---------- رأس الصفحة المشترك (PageHeader) ---------- */
+.af-page-header {
+  padding-block: 1.75rem;
+  background: linear-gradient(135deg, var(--af-primary-subtle) 0%, var(--af-body-bg) 70%);
+  border-bottom: 1px solid var(--af-border);
+}
+.af-page-header h1 { margin-bottom: 0.35rem; }
+.af-page-header p { margin-bottom: 0; color: var(--af-muted); }
+.af-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+  color: var(--af-muted);
+  font-size: 0.9375rem;
+}
+.af-breadcrumb li { display: inline-flex; align-items: center; gap: 0.4rem; }
+.af-breadcrumb a { color: var(--af-primary); font-weight: 500; text-decoration: none; }
+.af-breadcrumb a:hover { text-decoration: underline; }
+.af-breadcrumb [aria-current='page'] { color: var(--af-text); font-weight: 600; }
+.af-breadcrumb .bi { font-size: 0.75rem; }
+@media (min-width: 992px) {
+  .af-page-header { padding-block: 2.5rem; }
+}
+
+/* ---------- حالات مشتركة ---------- */
+.af-skeleton {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--af-surface-2) 25%, var(--af-border) 37%, var(--af-surface-2) 63%);
+  background-size: 400% 100%;
+  border-radius: var(--af-radius-sm);
+  animation: af-shimmer 1.4s ease infinite;
+}
+.af-skeleton--circle { border-radius: 50%; }
+@keyframes af-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+.af-inline-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-md);
+  background: var(--af-surface);
+  color: var(--af-muted);
+}

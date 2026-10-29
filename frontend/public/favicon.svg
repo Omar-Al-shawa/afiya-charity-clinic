@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <mask id="plus-cutout">
+      <rect x="-4" y="-4" width="40" height="40" fill="#fff" />
+      <path d="M16 9.8v8.4M11.8 14h8.4" stroke="#000" stroke-width="3" stroke-linecap="round" />
+    </mask>
+  </defs>
+  <rect width="32" height="32" rx="7" fill="#0F766E" />
+  <g transform="translate(6.4 6.2) scale(.6)">
+    <path d="M16 2.628C24.876-6.496 47.068 9.47 16 30-15.068 9.472 7.124-6.496 16 2.628z" fill="#FFFFFF" mask="url(#plus-cutout)" />
+  </g>
+</svg>

@@ -1,0 +1,39 @@
+/* =====================================================================
+   A10: تواصل معنا
+   تعيد استعمال أنماط الحقول والزر والرسالة من af-auth-* وaf-note وaf-info-card؛ هذا الملف يضيف التخطيط فقط.
+   كل القواعد مقيّدة بـ .af-contact فلا تمس A7 وA8 ولا غيرهما.
+   ===================================================================== */
+
+.af-contact {
+  /* متغير حدّ الحقول معرَّف في auth.css داخل .af-auth فقط؛ نعرّفه هنا بالقيمتين نفسيهما (تباين 3:1 على الأقل) */
+  --af-auth-field-border: #7c8b88;
+
+  display: grid;
+  gap: 1.5rem;
+  /* عرض قراءة مريح في المنتصف، كصفحة "عن المجمع" */
+  max-width: 720px;
+  margin-inline: auto;
+  padding-block: 2.5rem 3.5rem;
+}
+[data-bs-theme='dark'] .af-contact {
+  --af-auth-field-border: #5f7672;
+}
+
+/* ---------- بطاقة النموذج ---------- */
+.af-contact-card { padding: 1.5rem; }
+.af-contact-card:hover { box-shadow: var(--af-shadow); } /* بطاقة نموذج لا تتفاعل مع المرور */
+@media (min-width: 576px) {
+  .af-contact-card { padding: 2rem; }
+}
+@media (min-width: 992px) {
+  .af-contact-card { padding: 2.5rem; }
+}
+.af-contact h2 { margin-bottom: 0.5rem; font-size: 1.375rem; }
+.af-contact-required { margin-bottom: 1.5rem; color: var(--af-muted); font-size: 0.9375rem; }
+
+/* ---------- تنبيه الحالات الطارئة: معلومة هادئة بلون التحذير الخفيف ---------- */
+.af-contact-warning { margin: 0; background: var(--af-accent-subtle); }
+.af-contact-warning .bi { color: var(--af-warning); }
+
+/* ---------- ساعات العمل ---------- */
+.af-contact .af-contact-hours-title { margin-bottom: 0.75rem; }

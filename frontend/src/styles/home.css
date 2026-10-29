@@ -1,0 +1,220 @@
+/* =====================================================================
+   A1: الصفحة الرئيسية
+   ===================================================================== */
+
+.af-section { padding-block: 2.5rem; }
+@media (min-width: 992px) {
+  .af-section { padding-block: 4rem; }
+}
+
+.af-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+}
+.af-section-head h2 { margin-bottom: 0.25rem; }
+.af-section-link { font-weight: 600; text-decoration: none; white-space: nowrap; }
+.af-section-link:hover { text-decoration: underline; }
+.af-section-link .bi { margin-inline-start: 0.25rem; }
+
+/* ---------- البطل ---------- */
+/* الصورة هي العنصر البصري الأول: طبقة تعتيم خفيفة موضعية خلف النص فقط، لا طبقة بيضاء تغطي الصورة.
+   الطبقات من الأعلى: توهّج خلف الشعار، ثم تدرّج النص، ثم الصورة، ثم تدرّج داكن احتياطي إن لم تُحمَّل الصورة.
+   النص فاتح فوق الصورة في الوضعين، لذلك يستعمل البطل لوحة الوضع الداكن (القيم نفسها في main.css). */
+.af-hero {
+  position: relative;
+  --af-primary: #2bb3a3;
+  --af-primary-rgb: 43, 179, 163;
+  --af-primary-hover: #4cc9ba;
+  --af-on-primary: #06201d;
+  --af-accent: #f59e0b;
+  --af-accent-subtle: #3a2a12;
+  --af-text: #ffffff;
+  --af-muted: #e6efed;
+  --af-hero-kicker: #c9f7f0;
+
+  --af-hero-scrim-rgb: 6, 26, 24;
+  --af-hero-scrim-text: 0.64;
+  --af-hero-scrim-side: 0.14;
+  --af-hero-scrim: linear-gradient(
+    rgba(var(--af-hero-scrim-rgb), var(--af-hero-scrim-text)),
+    rgba(var(--af-hero-scrim-rgb), var(--af-hero-scrim-text))
+  );
+  --af-hero-photo-position: 42% 60%;
+
+  padding-block: 2.5rem;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(var(--af-hero-scrim-rgb), 0.6) 0, rgba(var(--af-hero-scrim-rgb), 0.45) 160px, rgba(var(--af-hero-scrim-rgb), 0) 400px),
+    var(--af-hero-scrim),
+    url('/images/hero-charitable-clinic.jpg') var(--af-hero-photo-position) / cover no-repeat,
+    linear-gradient(135deg, #0b5f58 0%, #0e1716 80%);
+  border-bottom: 1px solid var(--af-border);
+}
+.af-hero .container { position: relative; display: flow-root; }
+@media (min-width: 992px) {
+  .af-hero {
+    padding-block: 4.5rem;
+    /* النص على اليمين (RTL): التعتيم الأقوى عند الحافة اليمنى ثم يخفّ نحو اليسار فتظهر الصورة كاملة الوضوح */
+    --af-hero-scrim: linear-gradient(
+      to left,
+      rgba(var(--af-hero-scrim-rgb), var(--af-hero-scrim-text)) 0%,
+      rgba(var(--af-hero-scrim-rgb), var(--af-hero-scrim-text)) 620px,
+      rgba(var(--af-hero-scrim-rgb), var(--af-hero-scrim-side)) 900px,
+      rgba(var(--af-hero-scrim-rgb), var(--af-hero-scrim-side)) 100%
+    );
+    --af-hero-photo-position: center 60%;
+  }
+  /* يحافظ على ارتفاع البطل السابق بعد إزالة اللوحة الزخرفية */
+  .af-hero .row { min-height: calc(360px + var(--bs-gutter-y)); }
+}
+
+/* رمز القلب وحده في أعلى اليسار (inline-end في RTL)، أبيض فوق الصورة دون إطار أو بطاقة */
+.af-hero-logo {
+  position: absolute;
+  top: -1.5rem;
+  inset-inline-end: calc(var(--bs-gutter-x) * 0.5);
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+}
+.af-hero-logo .af-logo-heart { fill: #ffffff; }
+@media (min-width: 768px) {
+  .af-hero-logo { top: -1.75rem; width: 64px; height: 64px; }
+}
+@media (min-width: 992px) {
+  .af-hero-logo { top: -2.75rem; width: 96px; height: 96px; }
+}
+
+.af-hero .btn { --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.9); }
+.af-hero .btn-primary {
+  --bs-btn-border-color: #ffffff;
+  --bs-btn-hover-border-color: #ffffff;
+  --bs-btn-active-border-color: #ffffff;
+}
+.af-hero .btn-outline-primary {
+  --bs-btn-color: #ffffff;
+  --bs-btn-border-color: #ffffff;
+  --bs-btn-hover-color: var(--af-on-primary);
+  --bs-btn-hover-bg: #ffffff;
+  --bs-btn-hover-border-color: #ffffff;
+  --bs-btn-active-color: var(--af-on-primary);
+  --bs-btn-active-bg: #e6efed;
+  --bs-btn-active-border-color: #e6efed;
+}
+
+.af-hero-kicker { color: var(--af-hero-kicker); font-weight: 600; margin-bottom: 0.75rem; }
+.af-hero h1,
+.af-hero-kicker,
+.af-hero-lead { text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4); }
+.af-free-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background: var(--af-accent-subtle);
+  color: var(--af-accent);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.af-hero-lead { max-width: 34rem; margin-bottom: 1.5rem; color: var(--af-muted); font-size: 1.125rem; }
+
+/* ---------- شريط الثقة ---------- */
+.af-trust-card { padding: 1.25rem 1.5rem; flex-direction: row; align-items: flex-start; gap: 1rem; }
+.af-trust-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--af-primary-subtle);
+  color: var(--af-primary);
+  font-size: 1.4rem;
+}
+.af-trust-card h3 { margin-bottom: 0.25rem; }
+.af-trust-card p { margin-bottom: 0; color: var(--af-muted); }
+
+/* ---------- خطوات الحجز ---------- */
+.af-steps { list-style: none; padding-inline-start: 0; }
+.af-step { padding: 1.5rem; height: 100%; }
+.af-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: var(--af-primary);
+  color: var(--af-on-primary);
+  font-weight: 700;
+}
+.af-step h3 { margin-bottom: 0.35rem; }
+.af-step p { margin-bottom: 0; color: var(--af-muted); }
+.af-step-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--af-radius-md);
+  background: var(--af-primary-subtle);
+  color: var(--af-text);
+}
+.af-step-note .bi { margin-top: 0.3rem; color: var(--af-info); }
+
+/* ---------- ساعات العمل ---------- */
+.af-hours {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  padding: 1.5rem;
+}
+.af-hours-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--af-primary-subtle);
+  color: var(--af-primary);
+  font-size: 1.4rem;
+}
+.af-hours-text { flex: 1 1 14rem; }
+.af-hours-text strong { display: block; }
+.af-hours-closed {
+  display: inline-block;
+  margin-inline-start: 0.5rem;
+  padding: 0.1rem 0.7rem;
+  border-radius: 999px;
+  background: var(--af-surface-2);
+  color: var(--af-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.af-hours-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* ---------- دعوة الدعم ---------- */
+.af-donate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: 2rem;
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-lg);
+  background: var(--af-accent-subtle);
+}
+.af-donate h2 { color: var(--af-accent); margin-bottom: 0.35rem; }
+.af-donate p { margin-bottom: 0; color: var(--af-text); }

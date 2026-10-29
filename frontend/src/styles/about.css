@@ -1,0 +1,51 @@
+/* =====================================================================
+   A2: عن المجمع
+   ===================================================================== */
+
+/* عرض قراءة مريح في المنتصف */
+.af-about { max-width: 720px; margin-inline: auto; padding-block: 2.5rem 3.5rem; }
+.af-about-section + .af-about-section { margin-top: 2.5rem; }
+.af-about-section h2 { margin-bottom: 0.75rem; }
+.af-about-section p { margin-bottom: 0; font-size: 1.0625rem; }
+
+.af-service-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  padding: 0;
+  list-style: none;
+}
+.af-service-list li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 1.0625rem; }
+.af-service-list .bi { margin-top: 0.2rem; color: var(--af-primary); font-size: 1.2rem; }
+
+.af-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--af-radius-md);
+  background: var(--af-primary-subtle);
+  color: var(--af-text);
+}
+.af-note .bi { margin-top: 0.3rem; color: var(--af-info); }
+
+.af-info-card { padding: 1.25rem 1.5rem; gap: 1.25rem; }
+.af-info-row { display: flex; align-items: flex-start; gap: 1rem; }
+.af-info-row > .bi {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--af-primary-subtle);
+  color: var(--af-primary);
+  font-size: 1.25rem;
+}
+.af-info-row strong, .af-info-row span { display: block; }
+
+.af-about-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.5rem; }
+@media (max-width: 575.98px) {
+  .af-about-cta { flex-direction: column; }
+}

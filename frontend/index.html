@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="مجمع عافية الطبي الخيري: خدمات طبية مجانية وحجز مواعيد عبر الإنترنت." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>مجمع عافية الطبي الخيري</title>
+
+    <!-- تطبيق المظهر المحفوظ قبل تحميل React حتى لا تومض الصفحة بلون خاطئ -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('afiyah-theme');
+          document.documentElement.setAttribute('data-bs-theme', saved === 'dark' ? 'dark' : 'light');
+        } catch (e) {
+          /* التخزين المحلي غير متاح: يبقى المظهر الفاتح الافتراضي */
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Amiri+Quran&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

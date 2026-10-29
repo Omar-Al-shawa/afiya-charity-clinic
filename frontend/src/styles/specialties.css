@@ -1,0 +1,49 @@
+/* =====================================================================
+   A3: دليل التخصصات
+   أنماط حقل البحث مقيّدة بهذه الصفحة. توحيد أنماط الحقول يؤجَّل إلى شاشات النماذج (A6 وA7).
+   ===================================================================== */
+
+.af-directory { padding-bottom: 3rem; }
+
+.af-directory-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-block: 1.75rem;
+}
+
+.af-search { position: relative; flex: 1 1 280px; max-width: 420px; }
+.af-search .bi {
+  position: absolute;
+  inset-inline-start: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--af-muted);
+  pointer-events: none;
+}
+.af-search-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.6rem 1rem;
+  padding-inline-start: 2.75rem;
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-sm);
+  background: var(--af-surface);
+  color: var(--af-text);
+  font: inherit;
+  font-size: 1rem; /* 16px: يمنع تكبير iOS للصفحة عند التركيز */
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.af-search-input::placeholder { color: var(--af-muted); opacity: 1; }
+.af-search-input:hover { border-color: var(--af-muted); }
+/* مؤشر التركيز: الإطار العام :focus-visible من main.css، ويُضاف تلوين الحد */
+.af-search-input:focus { border-color: var(--af-primary); }
+.af-search-input:disabled { opacity: 0.6; cursor: not-allowed; background: var(--af-surface-2); }
+
+.af-result-count { margin: 0; color: var(--af-muted); font-size: 0.9375rem; min-height: 1.5em; }
+
+@media (max-width: 575.98px) {
+  .af-search { flex-basis: 100%; max-width: none; }
+}

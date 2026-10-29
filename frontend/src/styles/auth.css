@@ -1,0 +1,238 @@
+/* =====================================================================
+   A7: صفحة تسجيل الدخول الموحَّدة
+   كل القواعد مقيّدة بكلاسات af-auth-* ولا تمس الصفحات المعتمدة.
+   ===================================================================== */
+
+.af-auth {
+  /* حدّ الحقول بتباين لا يقل عن 3:1 مع خلفية البطاقة (حدّ --af-border أخفّ من ذلك) */
+  --af-auth-field-border: #7c8b88;
+  /* خلفية الرسم تطابق بياض الصورة نفسها في الوضعين، دون تعديل الملف */
+  --af-auth-art-bg: #ffffff;
+
+  padding-block: 1.75rem 2.5rem;
+}
+[data-bs-theme='dark'] .af-auth {
+  --af-auth-field-border: #5f7672;
+}
+@media (min-width: 992px) {
+  .af-auth { padding-block: 2.5rem 3.5rem; }
+}
+
+/* ---------- البطاقة ---------- */
+.af-auth-card { padding: 1.5rem; }
+.af-auth-card:hover { box-shadow: var(--af-shadow); } /* بطاقة نموذج لا تتفاعل مع المرور */
+@media (min-width: 576px) {
+  .af-auth-card { padding: 2rem; }
+}
+@media (min-width: 992px) {
+  .af-auth-card { padding: 2.5rem; }
+}
+
+/* ---------- خيارا التنقل: تسجيل الدخول | إنشاء حساب ---------- */
+.af-auth-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.75rem;
+  padding: 0.25rem;
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-md);
+  background: var(--af-surface-2);
+}
+.af-auth-tab {
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--af-radius-sm);
+  color: var(--af-text);
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+@media (max-width: 399.98px) {
+  .af-auth-tab { padding-inline: 0.25rem; font-size: 0.9375rem; white-space: nowrap; }
+}
+.af-auth-tab:hover { background: var(--af-surface); color: var(--af-text); }
+.af-auth-tab.active,
+.af-auth-tab.active:hover {
+  background: var(--af-primary);
+  color: var(--af-on-primary);
+  font-weight: 700;
+}
+
+/* ---------- العنوان ---------- */
+.af-auth-title { margin-bottom: 0.5rem; font-size: 1.5rem; }
+@media (min-width: 768px) {
+  .af-auth-title { font-size: 1.75rem; }
+}
+.af-auth-lead { margin-bottom: 1.5rem; color: var(--af-muted); }
+
+/* ---------- الحقول ---------- */
+.af-auth-field { margin-bottom: 1.25rem; }
+.af-auth-label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
+
+/* الحقل لاتيني (dir=ltr) لكن محاذاته لليمين ليتسق مع التسميات العربية */
+.af-auth-input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--af-auth-field-border);
+  border-radius: var(--af-radius-sm);
+  background: var(--af-surface);
+  color: var(--af-text);
+  font: inherit;
+  font-size: 1rem; /* 16px: يمنع تكبير iOS للصفحة عند التركيز */
+  text-align: right;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.af-auth-input::placeholder { color: var(--af-muted); opacity: 1; }
+.af-auth-input:hover { border-color: var(--af-text); }
+.af-auth-input:focus { border-color: var(--af-primary); }
+.af-auth-input.is-invalid,
+.af-auth-input.is-invalid:hover { border-color: var(--af-danger); border-width: 2px; padding: calc(0.6rem - 1px) calc(1rem - 1px); }
+
+/* زر الإظهار/الإخفاء: موضعه ثابت داخل الحقل (يسار الحقل في RTL) ولا يتأثر بحالة الخطأ أو بنوع الحقل.
+   الحقل dir=ltr فتُستعمل هنا خصائص فيزيائية عمداً. */
+.af-auth-password { position: relative; }
+.af-auth-password .af-auth-input { padding-left: 3.25rem; }
+.af-auth-password .af-auth-input.is-invalid { padding-left: calc(3.25rem - 1px); }
+.af-auth-toggle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--af-radius-sm);
+  background: transparent;
+  color: var(--af-muted);
+  font-size: 1.2rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.af-auth-toggle:hover { background: var(--af-surface-2); color: var(--af-text); }
+
+/* ---------- رسالة الخطأ: أيقونة ونص، لا لون وحده ---------- */
+.af-auth-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0;
+  color: var(--af-danger);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.af-auth-error .bi { margin-top: 0.3rem; font-size: 0.9rem; }
+
+/* ---------- زر الإرسال والرسالة المعلوماتية ---------- */
+.af-auth-submit { width: 100%; min-height: 48px; margin-top: 0.25rem; font-size: 1.0625rem; }
+.af-auth-submit:focus-visible { outline: 3px solid var(--af-primary); outline-offset: 2px; }
+.af-auth-notice { margin: 1.25rem 0 0; }
+
+/* ---------- الرسم (من 992px فما فوق) ---------- */
+.af-auth-art {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-lg);
+  background: var(--af-auth-art-bg);
+  box-shadow: var(--af-shadow);
+}
+.af-auth-art img {
+  display: block;
+  width: 100%;
+  height: auto; /* يحافظ على النسبة 1:1 دون قص أو تمديد */
+}
+
+/* =====================================================================
+   A8: نموذج التسجيل (يشارك قالب A7 نفسه). قواعد A7 أعلاه لم تتغير.
+   ===================================================================== */
+
+/* الرسم في /register فقط: قرب أعلى النموذج الأطول، في التدفق العادي للصفحة (بلا sticky أو fixed).
+   في /login لا يُضاف هذا الصنف فيبقى توسيط A7. */
+.af-auth-art-col--top { align-self: flex-start; }
+
+.af-auth-lead--note { margin-bottom: 0.5rem; }
+.af-auth-required { margin-bottom: 1.5rem; color: var(--af-muted); font-size: 0.9375rem; }
+
+/* صفّان من حقلين: عمود واحد دون 576px، وعمودان فوقه (الحقل الأول يمين الصف في RTL) */
+.af-auth-row { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 1rem; }
+@media (min-width: 576px) {
+  .af-auth-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.af-auth-hint { margin: 0.4rem 0 0; color: var(--af-muted); font-size: 0.9375rem; }
+
+/* حقل التاريخ والنص المتعدد الأسطر */
+.af-auth-input[type='date'] { min-width: 0; }
+textarea.af-auth-input { resize: vertical; }
+
+/* القائمة المنسدلة: سهم خاص بنا (لا form-select حتى لا تظهر أيقونة الخطأ الخاصة بـ Bootstrap).
+   الموقع فيزيائي (يسار) لأن الموقع RTL دائماً. */
+.af-auth-select {
+  padding-inline: 1rem 2.75rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%235b6b68' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  background-size: 16px 12px;
+}
+[data-bs-theme='dark'] .af-auth-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%239fb1ad' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+.af-auth-select.is-invalid,
+.af-auth-select.is-invalid:hover { padding-inline: calc(1rem - 1px) calc(2.75rem - 1px); }
+.af-auth-select:invalid { color: var(--af-muted); } /* الخيار الأول (بلا اختيار) بلون التلميح */
+.af-auth-select option { color: var(--af-text); }
+
+/* الجنس: خياران بشكل أقراص. حقل الاختيار شفاف فوق التسمية ليبقى هدف اللمس كاملاً (48px) */
+.af-auth-fieldset { min-width: 0; }
+.af-auth-legend { float: none; width: auto; padding: 0; font-size: 1rem; line-height: 1.7; }
+.af-auth-radios { display: flex; gap: 0.5rem; }
+.af-auth-radio { position: relative; flex: 1 1 0; min-width: 0; }
+.af-auth-radio input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.af-auth-radio label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--af-auth-field-border);
+  border-radius: var(--af-radius-sm);
+  background: var(--af-surface);
+  color: var(--af-text);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.af-auth-radio input:hover + label { border-color: var(--af-text); }
+/* المحدَّد: لون وخط أثقل وعلامة صح (لا لون وحده) */
+.af-auth-radio input:checked + label {
+  border-color: var(--af-primary);
+  background: var(--af-primary);
+  color: var(--af-on-primary);
+  font-weight: 700;
+}
+.af-auth-radio input:checked + label::before {
+  content: '\f633';
+  font-family: 'bootstrap-icons';
+  font-weight: 400;
+  line-height: 1;
+}
+.af-auth-radio input:focus-visible + label { outline: 3px solid var(--af-primary); outline-offset: 2px; }
+.af-auth-fieldset.has-error .af-auth-radio input:not(:checked) + label { border-color: var(--af-danger); border-width: 2px; }

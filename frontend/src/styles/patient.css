@@ -1,0 +1,82 @@
+/* =====================================================================
+   D3: مواعيدي والملف الشخصي للمريض
+   تعيد استعمال af-card وaf-badge وaf-meta وaf-note وأنماط الحقول af-auth-*؛ هذا الملف يضيف التخطيط فقط.
+   كل القواعد مقيّدة بـ .af-patient أو كلاسات af-patient-* فلا تمس الصفحات المعتمدة.
+   ===================================================================== */
+
+.af-patient {
+  /* متغير حدّ الحقول معرَّف في auth.css داخل .af-auth فقط؛ نعرّفه هنا بالقيمتين نفسيهما (تباين 3:1 على الأقل) */
+  --af-auth-field-border: #7c8b88;
+
+  display: grid;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin-inline: auto;
+  padding-block: 2.5rem 3.5rem;
+}
+[data-bs-theme='dark'] .af-patient {
+  --af-auth-field-border: #5f7672;
+}
+
+.af-patient-stack { display: grid; gap: 1rem; margin: 0; padding: 0; }
+
+/* ---------- روابط المريض في شريط التنقل: حجم مدمج لتتسع في الشريط، مع هدف لمس 44px ---------- */
+.af-patient-nav-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; }
+
+/* ---------- الأقسام ---------- */
+.af-patient-section-title { margin-bottom: 1rem; font-size: 1.375rem; }
+.af-patient-count { color: var(--af-muted); font-size: 1rem; font-weight: 500; }
+
+/* منطقة الإعلان عن نجاح الإلغاء: يُنقل إليها التركيز برمجياً فلا حاجة لإطار */
+.af-patient-live:focus { outline: none; }
+.af-patient-live:not(:empty) { margin-bottom: 1rem; }
+
+/* ---------- بطاقة الموعد ---------- */
+.af-patient-appt { padding: 1.25rem 1.5rem; gap: 1rem; }
+.af-patient-appt:hover { box-shadow: var(--af-shadow); } /* البطاقة لا تتفاعل مع المرور */
+.af-patient-appt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.af-patient-appt-doctor { margin: 0; font-size: 1.1875rem; }
+.af-patient-appt-actions { padding-top: 1rem; border-top: 1px solid var(--af-border); }
+
+/* الحالة بنص وشارة، لا بلون وحده */
+.af-patient-badge--past,
+.af-patient-badge--cancelled { background: var(--af-surface-2); color: var(--af-muted); }
+.af-patient-appt--cancelled .af-patient-appt-doctor { text-decoration: line-through; }
+
+.af-patient-confirm-text { margin-bottom: 0.75rem; font-weight: 600; }
+.af-patient-confirm-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.af-patient-appt-actions .btn,
+.af-patient-confirm-buttons .btn { min-height: 44px; }
+@media (max-width: 575.98px) {
+  .af-patient-confirm-buttons .btn,
+  .af-patient-appt-actions > .btn { flex: 1 1 100%; }
+}
+
+/* ---------- بطاقات الملف الشخصي ---------- */
+.af-patient-card { padding: 1.5rem; }
+.af-patient-card:hover { box-shadow: var(--af-shadow); } /* بطاقة نموذج لا تتفاعل مع المرور */
+@media (min-width: 576px) {
+  .af-patient-card { padding: 2rem; }
+}
+.af-patient-card-title { margin-bottom: 0.5rem; font-size: 1.375rem; }
+.af-patient-card-lead { margin-bottom: 1.5rem; color: var(--af-muted); font-size: 0.9375rem; }
+
+.af-patient-readonly { display: grid; gap: 0; margin: 0; }
+.af-patient-readonly-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding-block: 0.75rem;
+  border-top: 1px solid var(--af-border);
+}
+.af-patient-readonly-row:first-child { border-top: 0; padding-top: 0; }
+.af-patient-readonly dt { color: var(--af-muted); font-weight: 500; }
+.af-patient-readonly dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }

@@ -1,0 +1,126 @@
+/* =====================================================================
+   A9: التبرع (صفحة معلوماتية وتوضيحية فقط)
+   ===================================================================== */
+
+/* لون الآية: كهرماني الهوية (لون العطاء) في الوضعين */
+:root,
+[data-bs-theme='light'] { --af-verse-color: var(--af-accent-hover); }
+[data-bs-theme='dark'] { --af-verse-color: var(--af-accent); }
+
+/* ---------- الرأس: الآية ثم المرجع ثم العنوان ثم التمهيد، وكلها في المنتصف ---------- */
+.af-donate-header { padding-block: 2rem 2.25rem; text-align: center; }
+@media (min-width: 992px) {
+  .af-donate-header { padding-block: 3rem; }
+}
+
+.af-verse { max-width: 900px; margin: 0 auto 1.25rem; }
+.af-verse-text {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: 'Amiri Quran', 'IBM Plex Sans Arabic', serif;
+  font-size: clamp(1.375rem, 1.1rem + 1.5vw, 2rem);
+  font-weight: 400;
+  /* ارتفاع سطر واسع حتى لا يُقصّ التشكيل المتراكب */
+  line-height: 2.5;
+  color: var(--af-verse-color);
+  text-align: center;
+  text-wrap: balance;
+}
+/* تبقى "الكلمة + المسافة + علامة الوقف" معاً فلا تتدلى العلامة في آخر السطر */
+.af-verse-text .af-nowrap { white-space: nowrap; }
+.af-verse-ref {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--af-muted);
+  text-align: center;
+}
+
+.af-donate-intro { max-width: 640px; margin-inline: auto; }
+
+/* ---------- التنويه التجريبي ---------- */
+.af-demo-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-block: 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--af-accent);
+  border-inline-start-width: 6px;
+  border-radius: var(--af-radius-md);
+  background: var(--af-accent-subtle);
+  color: var(--af-text);
+  font-size: 1.0625rem;
+}
+.af-demo-notice .bi { margin-top: 0.15rem; color: var(--af-accent); font-size: 1.4rem; }
+.af-demo-notice p { margin: 0; }
+
+/* ---------- بطاقات طرق التبرع ---------- */
+.af-donations-section { padding-bottom: 2.5rem; }
+
+.af-donation-card { padding: 1.5rem; gap: 1rem; }
+.af-donation-head { display: flex; align-items: center; gap: 1rem; }
+.af-donation-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--af-primary-subtle);
+  color: var(--af-primary);
+  font-size: 1.5rem;
+}
+.af-badge--demo { background: var(--af-accent-subtle); color: var(--af-accent); }
+.af-donation-desc { margin: 0; color: var(--af-muted); }
+
+.af-fields { display: grid; gap: 0.9rem; margin: 0; }
+.af-field dt { margin-bottom: 0.15rem; color: var(--af-muted); font-size: 0.8125rem; font-weight: 600; }
+.af-field dd { margin: 0; overflow-wrap: anywhere; }
+
+.af-identifier-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+.af-identifier {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-sm);
+  background: var(--af-surface-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  user-select: all;
+  unicode-bidi: isolate;
+}
+.af-copy-btn { min-height: 44px; }
+.af-copy-status { margin-top: 0.35rem; font-size: 0.875rem; }
+.af-copy-status:empty { display: none; }
+.af-copy-error { color: var(--af-danger); }
+
+/* رمز QR على إطار أبيض ليبقى مقروءاً في الوضعين */
+.af-qr { margin: 0.5rem 0 0; text-align: center; }
+.af-qr-frame {
+  display: inline-block;
+  width: min(100%, 244px);
+  padding: 12px;
+  border: 1px solid var(--af-border);
+  border-radius: var(--af-radius-md);
+  background: #ffffff;
+}
+.af-qr-frame img { display: block; width: 100%; height: auto; aspect-ratio: 1278 / 1230; }
+.af-qr figcaption { margin-top: 0.5rem; color: var(--af-muted); font-size: 0.875rem; }
+
+/* ---------- دعوة التواصل ---------- */
+.af-donate-cta {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  padding: 1.5rem;
+}
+.af-donate-cta p { margin: 0; font-size: 1.125rem; font-weight: 600; }
+@media (max-width: 575.98px) {
+  .af-donate-cta .btn { width: 100%; }
+}
