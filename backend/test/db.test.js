@@ -56,3 +56,31 @@ test('runDuePendingChanges returns [] when nothing is due and stops at the itera
   assert.deepEqual(await runDuePendingChanges(stubDb([null])), []);
   await assert.rejects(runDuePendingChanges(stubDb([1, 1, 1, 1]), { maxIterations: 3 }), /did not finish/);
 });
+
+test('loadConfig supports DATABASE_URL without DB_NAME/DB_USER and keeps the DB_* path unchanged', () => {
+  const secret = 's'.repeat(32);
+  const url = 'postgresql://hostuser:hostpass@db.example.test:5432/hosted';
+  const config = loadConfig({ JWT_SECRET: secret, DATABASE_URL: url });
+  assert.deepEqual(config.db, { connectionString: url, database: 'hosted' });
+  assert.equal(loadConfig({ JWT_SECRET: secret, DATABASE_URL: url, DATABASE_SSL: 'true' }).db.ssl, true);
+  assert.deepEqual(loadConfig({ JWT_SECRET: secret, DATABASE_URL: url, DATABASE_SSL: 'no-verify' }).db.ssl, { rejectUnauthorized: false });
+  assert.throws(() => loadConfig({ DATABASE_URL: url }), /JWT_SECRET/);
+  assert.throws(() => loadConfig({ JWT_SECRET: secret, DATABASE_URL: url, DATABASE_SSL: 'maybe' }), /DATABASE_SSL/);
+  // الرابط غير الصالح يُرفض دون إظهار قيمته
+  assert.throws(() => loadConfig({ JWT_SECRET: secret, DATABASE_URL: 'mysql://u:secret@h/d' }), (err) => {
+    assert.match(err.message, /DATABASE_URL/);
+    assert.doesNotMatch(err.message, /secret/);
+    return true;
+  });
+  // بلا DATABASE_URL يبقى DB_NAME وDB_USER مطلوبين
+  assert.throws(() => loadConfig({ JWT_SECRET: secret }), /DB_NAME, DB_USER/);
+});
+
+test('loadConfig parses TRUST_PROXY as a hop count and keeps it disabled by default', () => {
+  const base = { DB_NAME: 'n', DB_USER: 'u', JWT_SECRET: 's'.repeat(32) };
+  assert.equal(loadConfig(base).trustProxy, false);
+  assert.equal(loadConfig({ ...base, TRUST_PROXY: '1' }).trustProxy, 1);
+  assert.equal(loadConfig({ ...base, TRUST_PROXY: '0' }).trustProxy, false);
+  assert.throws(() => loadConfig({ ...base, TRUST_PROXY: 'true' }), /TRUST_PROXY/);
+  assert.throws(() => loadConfig({ ...base, TRUST_PROXY: '-1' }), /TRUST_PROXY/);
+});

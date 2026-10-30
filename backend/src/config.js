@@ -1,4 +1,5 @@
 // قراءة متغيرات البيئة والتحقق منها (تُحمَّل بـ node --env-file). لا تُطبع كلمة المرور في أي مكان.
+// DB_NAME وDB_USER مطلوبان فقط عند غياب DATABASE_URL (الاستضافة تمرّر DATABASE_URL وحدها)
 const REQUIRED = ['DB_NAME', 'DB_USER', 'JWT_SECRET'];
 const JWT_SECRET_MIN_LENGTH = 32;
 const DEV_ORIGINS = ['http://localhost:5173', 'http://127.0.0.1:5173'];
@@ -10,6 +11,42 @@ function parsePort(value, name, fallback) {
     throw new Error(`Invalid ${name}: must be an integer between 1 and 65535`);
   }
   return port;
+}
+
+// عدد وسطاء البروكسي الموثوقين (TRUST_PROXY): عدد صحيح فقط؛ يبقى معطّلاً (false) افتراضياً فلا يتغير السلوك المحلي.
+// true غير مقبولة: تسمح بانتحال X-Forwarded-For وتُبطل تحديد المعدّل.
+function parseTrustProxy(value) {
+  if (value === undefined || value === '') return false;
+  const hops = Number(value);
+  if (!Number.isInteger(hops) || hops < 0 || hops > 10) {
+    throw new Error('Invalid TRUST_PROXY: must be an integer between 0 and 10 (the number of trusted proxies)');
+  }
+  return hops === 0 ? false : hops;
+}
+
+// الاتصال عبر DATABASE_URL (الاستضافة). لا تُطبع قيمته ولا يُدرج في رسائل الأخطاء.
+// DATABASE_SSL اختياري: true (تشفير مع التحقق من الشهادة) أو no-verify (تشفير دون تحقق) أو false؛ وغيابه يترك ما في الرابط (sslmode).
+function parseDatabaseUrl(env) {
+  let url;
+  try {
+    url = new URL(env.DATABASE_URL);
+  } catch {
+    throw new Error('Invalid DATABASE_URL: must be a postgres:// or postgresql:// connection string');
+  }
+  if (url.protocol !== 'postgres:' && url.protocol !== 'postgresql:') {
+    throw new Error('Invalid DATABASE_URL: must be a postgres:// or postgresql:// connection string');
+  }
+  const config = {
+    connectionString: env.DATABASE_URL,
+    // للعرض في السكربتات فقط (اسم القاعدة ليس سراً)؛ الاتصال يأخذ قيمه من الرابط
+    database: url.pathname.replace(/^\//, ''),
+  };
+  const ssl = (env.DATABASE_SSL || '').toLowerCase();
+  if (ssl === 'true') config.ssl = true;
+  else if (ssl === 'no-verify') config.ssl = { rejectUnauthorized: false };
+  else if (ssl === 'false') config.ssl = false;
+  else if (ssl !== '') throw new Error('Invalid DATABASE_SSL: use true, no-verify, or false');
+  return config;
 }
 
 // أصول الواجهة المسموح لها بطلبات التعديل (CSRF): من ALLOWED_ORIGINS، وإلا خادم Vite المحلي خارج الإنتاج.
@@ -55,6 +92,7 @@ function parseSmtp(env) {
 
 // إعداد قاعدة البيانات وحده: يستعمله loadConfig وسكربت إنشاء المدير (الذي لا يحتاج JWT_SECRET ولا SMTP)
 export function loadDbConfig(env = process.env) {
+  if (env.DATABASE_URL) return parseDatabaseUrl(env);
   const missing = ['DB_NAME', 'DB_USER'].filter((name) => !env[name]);
   if (missing.length > 0) {
     throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
@@ -70,7 +108,7 @@ export function loadDbConfig(env = process.env) {
 }
 
 export function loadConfig(env = process.env) {
-  const missing = REQUIRED.filter((name) => !env[name]);
+  const missing = REQUIRED.filter((name) => !env[name] && !(env.DATABASE_URL && name.startsWith('DB_')));
   if (missing.length > 0) {
     throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
   }
@@ -82,6 +120,7 @@ export function loadConfig(env = process.env) {
     nodeEnv,
     port: parsePort(env.PORT, 'PORT', 3001),
     allowedOrigins: parseOrigins(env.ALLOWED_ORIGINS, nodeEnv),
+    trustProxy: parseTrustProxy(env.TRUST_PROXY),
     auth: {
       jwtSecret: env.JWT_SECRET,
       tokenTtlSeconds: 8 * 60 * 60,

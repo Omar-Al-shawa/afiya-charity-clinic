@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import { loadConfig } from './config.js';
 import { createDb } from './db/pool.js';
 import { runDuePendingChanges } from './db/pendingChanges.js';
@@ -25,7 +26,9 @@ async function main() {
 
   // التغييرات المستحقة تُنفَّذ أيضاً قبل الطلبات المعتمدة عليها، فلا يلزم إعادة تشغيل الخادم يوم السريان
   const processDueChanges = () => runDuePendingChanges(db);
-  const server = createApp({ db, config, mailer, processDueChanges }).listen(config.port, () => {
+  // بناء الواجهة (npm run build في جذر المشروع) يُقدَّم من الخادم نفسه؛ غيابه يعني API فقط (التطوير المحلي)
+  const frontendDir = fileURLToPath(new URL('../../frontend/dist', import.meta.url));
+  const server = createApp({ db, config, mailer, processDueChanges, frontendDir }).listen(config.port, () => {
     console.log(`[startup] listening on port ${config.port}`);
   });
 

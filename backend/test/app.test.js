@@ -1,3 +1,7 @@
+import { createHash } from 'node:crypto';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import express from 'express';
@@ -81,4 +85,59 @@ test('unexpected errors (including AF113) return a generic 500 without details',
     assert.equal(res.body.error.code, 'INTERNAL_ERROR');
     assert.doesNotMatch(JSON.stringify(res.body), /relation|iso/);
   }
+});
+
+// تقديم بناء الواجهة: مجلد مؤقت يحاكي frontend/dist
+const THEME_SCRIPT = "document.documentElement.setAttribute('data-bs-theme','light');";
+const INDEX_HTML = `<!doctype html><html><head><script>${THEME_SCRIPT}</script></head><body><div id="root"></div><script type="module" src="/assets/app-1.js"></script></body></html>`;
+
+function makeFrontendDir(t) {
+  const dir = mkdtempSync(path.join(tmpdir(), 'afiyah-dist-'));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  mkdirSync(path.join(dir, 'assets'));
+  writeFileSync(path.join(dir, 'index.html'), INDEX_HTML);
+  writeFileSync(path.join(dir, 'assets', 'app-1.js'), 'console.log(1);');
+  return dir;
+}
+
+test('the frontend build is served, deep links fall back to index.html, and /api stays JSON', async (t) => {
+  const app = createApp({ db: dbUp, config, frontendDir: makeFrontendDir(t) });
+
+  const home = await request(app).get('/');
+  assert.equal(home.status, 200);
+  assert.match(home.headers['content-type'], /text\/html/);
+  assert.match(home.text, /id="root"/);
+
+  const deep = await request(app).get('/doctors/5/book?date=2026-11-01');
+  assert.equal(deep.status, 200);
+  assert.match(deep.text, /id="root"/);
+
+  const asset = await request(app).get('/assets/app-1.js');
+  assert.equal(asset.status, 200);
+  assert.match(asset.headers['cache-control'], /immutable/);
+
+  assert.equal((await request(app).get('/assets/missing.js')).status, 404);
+  const api = await request(app).get('/api/nope');
+  assert.equal(api.status, 404);
+  assert.equal(api.body.error.code, 'NOT_FOUND');
+  assert.equal((await request(app).post('/some-page')).status, 404);
+});
+
+test('CSP allows only the hashed inline theme script', async (t) => {
+  const res = await request(createApp({ db: dbUp, config, frontendDir: makeFrontendDir(t) })).get('/');
+  const hash = createHash('sha256').update(THEME_SCRIPT).digest('base64');
+  const csp = res.headers['content-security-policy'];
+  assert.match(csp, new RegExp(`script-src 'self' 'sha256-${hash.replace(/[+/=]/g, '\\$&')}'(;|$)`));
+  assert.doesNotMatch(csp, /unsafe-inline.*script-src|script-src[^;]*unsafe-inline/);
+});
+
+test('without a frontend build the app serves the API only', async () => {
+  const res = await request(createApp({ db: dbUp, config, frontendDir: '/nonexistent-afiyah-dist' })).get('/');
+  assert.equal(res.status, 404);
+  assert.equal(res.body.error.code, 'NOT_FOUND');
+});
+
+test('trust proxy is applied only when configured', () => {
+  assert.equal(createApp({ db: dbUp, config }).get('trust proxy'), false);
+  assert.equal(createApp({ db: dbUp, config: { ...config, trustProxy: 1 } }).get('trust proxy'), 1);
 });
